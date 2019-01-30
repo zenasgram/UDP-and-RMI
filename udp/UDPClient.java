@@ -41,7 +41,7 @@ public class UDPClient {
 		UDPClient(); //initialise Socket
 
 		message = args[0].getBytes();
-		System.out.println("Message: " message);
+		System.out.println("Message: " + message);
 
 		testLoop(serverAddr, recvPort, countTo); //test sending
 
@@ -56,9 +56,9 @@ public class UDPClient {
 				sendSoc = new DatagramSocket();  	
 
 			}
-			catch (SocketExceptione){System.out.println("Socket: " + e.getMessage());
+			catch (SocketException e){System.out.println("Socket: " + e.getMessage());
 			}
-			catch (IOExceptione){System.out.println("IO: " + e.getMessage());
+			catch (IOException e){System.out.println("IO: " + e.getMessage());
 			} 
 	}
 
@@ -79,7 +79,7 @@ public class UDPClient {
 			}
 			tries++;
 		}
-		System.out.println("Tries: " tries);
+		System.out.println("Tries: " + tries);
 	}
 
 	private void send(String payload, InetAddress destAddr, int destPort) {
