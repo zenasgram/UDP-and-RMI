@@ -37,10 +37,8 @@ public class UDPClient {
 
 		UDPClient Client = new UDPClient(); //initialise Socket
 
-		byte[] tmp = args[0].getBytes();
-		message = tmp.toString();
-		System.out.println("Message: " + message);
-		
+		message = args[0];
+
 		Client.testLoop(message, serverAddr, recvPort, countTo); //test sending
 
 	}
@@ -63,27 +61,18 @@ public class UDPClient {
 		int				tries = 0;
 
 		// TO-DO: Send the messages to the server
-		for(int i=0; i<countTo; i++){
+
+		while(tries<countTo){
+			
+			
 
 			send(message, serverAddr , recvPort); //pass to send function
 
-			byte[] buffer = new byte[1000];
-			DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
-			
-			try { 
-				sendSoc.receive(reply);
-				}
-			catch(IOException e){
-					System.out.println("IO: " + e.getMessage());
-				}
-
-			String check = new String(reply.getData());
-			if (check == message){
-				break;
-			}
+			System.out.println("Messages: " + message);
 			tries++;
 		}
-		System.out.println("Tries: " + tries);
+		
+		
 	}
 
 	private void send(String payload, InetAddress destAddr, int destPort) {
