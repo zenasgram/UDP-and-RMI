@@ -1,6 +1,3 @@
-/*
- * Created on 01-Mar-2016
- */
 package udp;
 
 import java.io.IOException;
@@ -38,12 +35,13 @@ public class UDPClient {
 		countTo = Integer.parseInt(args[2]);
 
 
-		UDPClient(); //initialise Socket
+		UDPClient Client = new UDPClient(); //initialise Socket
 
-		message = args[0].getBytes();
+		byte[] tmp = args[0].getBytes();
+		message = tmp.toString();
 		System.out.println("Message: " + message);
-
-		testLoop(serverAddr, recvPort, countTo); //test sending
+		
+		Client.testLoop(message, serverAddr, recvPort, countTo); //test sending
 
 	}
 
@@ -56,13 +54,12 @@ public class UDPClient {
 				sendSoc = new DatagramSocket();  	
 
 			}
-			catch (SocketException e){System.out.println("Socket: " + e.getMessage());
+			catch (SocketException e){
+				System.out.println("Socket: " + e.getMessage());
 			}
-			catch (IOException e){System.out.println("IO: " + e.getMessage());
-			} 
 	}
 
-	private void testLoop(InetAddress serverAddr, int recvPort, int countTo) {
+	private void testLoop(String message, InetAddress serverAddr, int recvPort, int countTo) {
 		int				tries = 0;
 
 		// TO-DO: Send the messages to the server
@@ -72,7 +69,14 @@ public class UDPClient {
 
 			byte[] buffer = new byte[1000];
 			DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
-			sendSoc.receive(reply);
+			
+			try { 
+				sendSoc.receive(reply);
+				}
+			catch(IOException e){
+					System.out.println("IO: " + e.getMessage());
+				}
+
 			String check = new String(reply.getData());
 			if (check == message){
 				break;
@@ -88,10 +92,16 @@ public class UDPClient {
 		DatagramPacket		pkt;
 
 		// TO-DO: build the datagram packet and send it to the server
-		pktData = payload;
+		pktData = payload.getBytes();
+		payloadSize = payload.length();
 		
 		pkt = new DatagramPacket(pktData,  payloadSize, destAddr, destPort);
 
+		try { 
 		sendSoc.send(pkt);
+		}
+		catch(IOException e){
+			System.out.println("IO: " + e.getMessage());
+		}
 	}
 }
