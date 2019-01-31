@@ -33,12 +33,13 @@ public class UDPServer {
 			pacData = buffer;
 
 			while(!close){
+
 				pac = new DatagramPacket(pacData, pacSize);
 				recvSoc.receive(pac);
 
 				pacData =  pac.getData();
 				String tmp = pacData.toString();
-
+				
 				totalMessages++;
 				processMessage(tmp);
 				
