@@ -29,21 +29,20 @@ public class UDPServer {
 		try{
 
 			close = false;
-			byte[] buffer = new byte[1024];
+			pacData = new byte[1024];
+			pacSize = pacData.length;
 
 			while(!close){
 				
-				pac = new DatagramPacket(buffer, buffer.length);
+				pac = new DatagramPacket(pacData, pacSize);
 				recvSoc.receive(pac);
 				System.out.println("checkpoint");
 
-				pacData =  pac.getData();
-				String tmp = pacData.toString();
-
-				pacSize = pacData.length;
+				
+				String message = new String( pac.getData());
 				
 				totalMessages++;
-				processMessage(tmp);
+				processMessage(message);
 				
 
 				//recvSoc.setSoTimeout(30000);
