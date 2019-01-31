@@ -39,9 +39,9 @@ public class UDPServer {
 				pacData =  pac.getData();
 				String tmp = pacData.toString();
 
-
-				processMessage(tmp);
 				totalMessages++;
+				processMessage(tmp);
+				
 
 				recvSoc.setSoTimeout(30000);
 			}
