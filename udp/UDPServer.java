@@ -28,25 +28,25 @@ public class UDPServer {
 		//        Use a timeout (e.g. 30 secs) to ensure the program doesn't block forever
 		try{
 
-			byte[] buffer = new byte[1000];
-			pacSize = buffer.length;
-			pacData = buffer;
-
 			close = false;
+			byte[] buffer = new byte[1024];
 
 			while(!close){
-				System.out.println("checkpoint");
-				pac = new DatagramPacket(pacData, pacSize);
+				
+				pac = new DatagramPacket(buffer, buffer.length);
 				recvSoc.receive(pac);
+				System.out.println("checkpoint");
 
 				pacData =  pac.getData();
 				String tmp = pacData.toString();
+
+				pacSize = pacData.length;
 				
 				totalMessages++;
 				processMessage(tmp);
 				
 
-				recvSoc.setSoTimeout(30000);
+				//recvSoc.setSoTimeout(30000);
 			}
 			
 
@@ -103,7 +103,7 @@ public class UDPServer {
 			System.err.println("Arguments required: recv port");
 			System.exit(-1);
 		}
-		
+
 		recvPort = Integer.parseInt(args[0]);
 
 		// TO-DO: Construct Server object and start it by calling run().
