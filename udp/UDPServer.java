@@ -22,13 +22,13 @@ public class UDPServer {
 	private void run() {
 		int				pacSize;
 		byte[]			pacData;
-		DatagramPacket 	pac;
+		DatagramPacket 	pac =  null;
 
 		// TO-DO: Receive the messages and process them by calling processMessage(...).
 		//        Use a timeout (e.g. 30 secs) to ensure the program doesn't block forever
 		try{
 
-			byte[ ] buffer = new byte[1000];
+			byte[] buffer = new byte[1000];
 			pacSize = buffer.length;
 			pacData = buffer;
 
