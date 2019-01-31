@@ -29,10 +29,11 @@ public class UDPServer {
 		try{
 
 			close = false;
-			pacData = new byte[1024];
-			pacSize = pacData.length;
 
 			while(!close){
+
+				pacData = new byte[1024];
+				pacSize = pacData.length;
 				
 				pac = new DatagramPacket(pacData, pacSize);
 				recvSoc.receive(pac);
@@ -45,7 +46,7 @@ public class UDPServer {
 				processMessage(message);
 				
 
-				//recvSoc.setSoTimeout(30000);
+				recvSoc.setSoTimeout(30000);
 			}
 			
 
