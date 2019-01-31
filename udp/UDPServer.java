@@ -36,7 +36,8 @@ public class UDPServer {
 
 			while(!close){
 				System.out.println("checkpoint");
-				pac = new DatagramPacket(pacData, pacSize);
+				
+				pac = new DatagramPacket(buffer, buffer.length);
 				recvSoc.receive(pac);
 
 				pacData =  pac.getData();
