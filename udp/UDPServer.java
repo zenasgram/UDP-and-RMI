@@ -32,7 +32,7 @@ public class UDPServer {
 			pacSize = buffer.length;
 			pacData = buffer;
 
-			while(close){
+			while(!close){
 				pac = new DatagramPacket(pacData, pacSize);
 				recvSoc.receive(pac);
 
@@ -67,7 +67,7 @@ public class UDPServer {
 		}
 		// TO-DO: On receipt of first message, initialise the receive buffer
 		if(totalMessages == 0){
-			receivedMessages = new int[1000];
+			receivedMessages = new int[2000];
 		}
 		// TO-DO: Log receipt of the message
 		receivedMessages[totalMessages] = Integer.parseInt(msg.toString());
