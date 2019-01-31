@@ -71,7 +71,7 @@ public class UDPServer {
 		}
 		// TO-DO: Log receipt of the message
 		receivedMessages[totalMessages] = Integer.parseInt(msg.toString());
-
+		System.out.println("Message received: " + msg.toString());
 		// TO-DO: If this is the last expected message, then identify
 		//        any missing messages
 
