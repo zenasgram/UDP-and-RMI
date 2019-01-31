@@ -32,6 +32,8 @@ public class UDPServer {
 			pacSize = buffer.length;
 			pacData = buffer;
 
+			close = false;
+
 			while(!close){
 
 				pac = new DatagramPacket(pacData, pacSize);
