@@ -14,7 +14,7 @@ import common.MessageInfo;
 
 public class UDPServer {
 
-	private DatagramSocket recvSoc;
+	private DatagramSocket recvSoc = null;
 	private int totalMessages = -1;
 	private int[] receivedMessages;
 	private boolean close;
@@ -36,8 +36,7 @@ public class UDPServer {
 
 			while(!close){
 				System.out.println("checkpoint");
-				
-				pac = new DatagramPacket(buffer, buffer.length);
+				pac = new DatagramPacket(pacData, pacSize);
 				recvSoc.receive(pac);
 
 				pacData =  pac.getData();
@@ -104,6 +103,7 @@ public class UDPServer {
 			System.err.println("Arguments required: recv port");
 			System.exit(-1);
 		}
+		
 		recvPort = Integer.parseInt(args[0]);
 
 		// TO-DO: Construct Server object and start it by calling run().
