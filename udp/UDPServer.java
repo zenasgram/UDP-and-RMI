@@ -16,7 +16,7 @@ public class UDPServer {
 
 	private DatagramSocket recvSoc = null;
 	private int totalMessages = -1;
-	private int[] receivedMessages;
+	private int[] receivedMessages = null;
 	private boolean close;
 
 	private void run() {
@@ -39,7 +39,7 @@ public class UDPServer {
 				recvSoc.receive(pac);
 				
 				String message = new String( pac.getData());
-				
+
 				totalMessages++;
 				processMessage(message);
 				
@@ -56,28 +56,34 @@ public class UDPServer {
 	}
 
 	public void processMessage(String data) {
-
-		System.out.println("checkpoint");
+		
 		MessageInfo msg = null;
-
 		// TO-DO: Use the data to construct a new MessageInfo object
 		try{
 			
 			msg = new MessageInfo(data);
+
+		
+			// TO-DO: On receipt of first message, initialise the receive buffer
+			if(totalMessages == 0){
+				receivedMessages = new int[2000];
+			}
+			// TO-DO: Log receipt of the message
+			receivedMessages[totalMessages] = msg.messageNum;
+			
+			// TO-DO: If this is the last expected message, then identify any missing messages
+			if(totalMessages==msg.totalMessages){
+				for(int i=0 ; i < totalMessages ; i++){
+					if(receivedMessages[i]!=i){ //message missing
+						System.out.println("Missing: " + Integer.toString(msg.totalMessages) + ";" + Integer.toString(i));
+					}
+				}
+			}
+
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		// TO-DO: On receipt of first message, initialise the receive buffer
-		if(totalMessages == 0){
-			receivedMessages = new int[2000];
-		}
-		// TO-DO: Log receipt of the message
-		receivedMessages[totalMessages] = Integer.parseInt(msg.toString());
-		System.out.println("Message received: " + msg.toString());
-		// TO-DO: If this is the last expected message, then identify
-		//        any missing messages
-
 	}
 
 

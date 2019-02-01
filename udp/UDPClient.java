@@ -37,10 +37,9 @@ public class UDPClient {
 
 		UDPClient Client = new UDPClient(); //initialise Socket
 
-		
-		message = "1;1";
-
-		Client.send(message, serverAddr, recvPort); //send message
+		//test message		
+		// message = "10;3";
+		// Client.send(message, serverAddr, recvPort); //send message
 
 		Client.testLoop(serverAddr, recvPort, countTo); //test sending
 
