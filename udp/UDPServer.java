@@ -37,8 +37,6 @@ public class UDPServer {
 				
 				pac = new DatagramPacket(pacData, pacSize);
 				recvSoc.receive(pac);
-				System.out.println("checkpoint");
-
 				
 				String message = new String( pac.getData());
 				
@@ -59,14 +57,16 @@ public class UDPServer {
 
 	public void processMessage(String data) {
 
+		System.out.println("checkpoint");
 		MessageInfo msg = null;
 
 		// TO-DO: Use the data to construct a new MessageInfo object
 		try{
+			
 			msg = new MessageInfo(data);
 		}
 		catch (Exception e) {
-			System.out.println("Message Info: " + e.getMessage());
+			System.out.println(e.getMessage());
 		}
 		// TO-DO: On receipt of first message, initialise the receive buffer
 		if(totalMessages == 0){

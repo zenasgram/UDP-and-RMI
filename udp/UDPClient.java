@@ -38,7 +38,7 @@ public class UDPClient {
 		UDPClient Client = new UDPClient(); //initialise Socket
 
 		
-		message = "Hello World";
+		message = "1;1";
 
 		Client.send(message, serverAddr, recvPort); //send message
 
@@ -62,13 +62,14 @@ public class UDPClient {
 
 	private void testLoop(InetAddress serverAddr, int recvPort, int countTo) {
 		int				tries = 0;
+		MessageInfo message = null;
 
 		// TO-DO: Send the messages to the server
 		while(tries<countTo){
 		
-			String message = "Test " + Integer.toString(tries);
+			message = new MessageInfo (countTo,tries);
 
-			send(message, serverAddr , recvPort); //pass to send function
+			send(message.toString(), serverAddr , recvPort); //pass to send function
 
 			tries++;
 		}
