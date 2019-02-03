@@ -14,15 +14,15 @@ import common.MessageInfo;
 
 public class UDPServer {
 
-	private DatagramSocket recvSoc = null;
+	private DatagramSocket recvSoc;
 	private int totalMessages = -1;
-	private int[] receivedMessages = null;
+	private int[] receivedMessages;
 	private boolean close;
 
 	private void run() {
 		int				pacSize;
 		byte[]			pacData;
-		DatagramPacket 	pac =  null;
+		DatagramPacket 	pac;
 
 		// TO-DO: Receive the messages and process them by calling processMessage(...).
 		//        Use a timeout (e.g. 30 secs) to ensure the program doesn't block forever
@@ -57,17 +57,18 @@ public class UDPServer {
 
 	public void processMessage(String data) {
 		
-		MessageInfo msg = null;
+		
 		// TO-DO: Use the data to construct a new MessageInfo object
 		try{
-			
-			msg = new MessageInfo(data);
 
-		
+			MessageInfo msg = new MessageInfo(data);
+			
+			System.out.println("checkpoint");
 			// TO-DO: On receipt of first message, initialise the receive buffer
 			if(totalMessages == 0){
 				receivedMessages = new int[2000];
 			}
+			
 			// TO-DO: Log receipt of the message
 			receivedMessages[totalMessages] = msg.messageNum;
 			
@@ -79,11 +80,12 @@ public class UDPServer {
 					}
 				}
 			}
-
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+
+		
 	}
 
 

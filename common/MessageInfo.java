@@ -25,8 +25,10 @@ public class MessageInfo implements Serializable {
 
 	public MessageInfo(String msg) throws Exception {
 		String[] fields = msg.split(";");
-		if (fields.length!=2)
+		// System.out.println("checkpoint" + Integer.toString(fields.length));
+		if (fields.length!=2){
 			throw new Exception("MessageInfo: Invalid string for message construction: " + msg);
+		}
 		totalMessages = Integer.parseInt(fields[0]);
 		messageNum = Integer.parseInt(fields[1]);
 	}
