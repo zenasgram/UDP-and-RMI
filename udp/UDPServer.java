@@ -56,14 +56,10 @@ public class UDPServer {
 	}
 
 	public void processMessage(String data) {
-		
-		
 		// TO-DO: Use the data to construct a new MessageInfo object
+		MessageInfo msg = null;
 		try{
-
-			MessageInfo msg = new MessageInfo(data);
-			
-			System.out.println("checkpoint");
+			msg = new MessageInfo(data);
 			// TO-DO: On receipt of first message, initialise the receive buffer
 			if(totalMessages == 0){
 				receivedMessages = new int[2000];
@@ -71,7 +67,8 @@ public class UDPServer {
 			
 			// TO-DO: Log receipt of the message
 			receivedMessages[totalMessages] = msg.messageNum;
-			
+			System.out.println("Message received: " + msg.toString() );
+
 			// TO-DO: If this is the last expected message, then identify any missing messages
 			if(totalMessages==msg.totalMessages){
 				for(int i=0 ; i < totalMessages ; i++){
@@ -82,7 +79,7 @@ public class UDPServer {
 			}
 		}
 		catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("Error: " + e.getMessage());
 		}
 
 		
