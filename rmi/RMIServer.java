@@ -26,14 +26,15 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 		}
 		// TO-DO: Log receipt of the message
 		receivedMessages[totalMessages] = msg.messageNum;
-		System.out.println("Message received: " + msg.toString() );
+		System.out.println("Received: " + msg.toString() );
 
 		// TO-DO: If this is the last expected message, then identify
 		//        any missing messages
 		if(totalMessages==msg.totalMessages-1){
 			for(int i=0 ; i < totalMessages ; i++){
 				if(receivedMessages[i]!=i){ //message missing
-					System.out.println("Missing: " + Integer.toString(msg.totalMessages) + ";" + Integer.toString(i));
+					System.out.println("Missing: " + Integer.toString(msg.totalMessages) 
+					+ ";" + Integer.toString(i));
 				}
 			}
 		}

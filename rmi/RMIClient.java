@@ -42,7 +42,7 @@ public class RMIClient {
 						message = new MessageInfo(numMessages,tries);
 						
 						iRMIServer.receiveMessage(message); //send to server
-						System.out.println("Message: " + message.toString() );
+						System.out.println("Sent: " + message.toString() );
 						
 						tries++; 
 					}

@@ -30,9 +30,9 @@ public class MessageInfo implements Serializable {
 		if (fields.length!=2){
 			throw new Exception("MessageInfo: Invalid string for message construction: " + msg);
 		}
-		String tmpNo[] = fields[1].split("\\n");
+
 		totalMessages = Integer.parseInt(fields[0]);
-		messageNum = Integer.parseInt(tmpNo[0]);
+		messageNum = Integer.parseInt(fields[1]);
 	}
 
 	public String toString(){

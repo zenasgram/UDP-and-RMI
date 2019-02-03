@@ -1,6 +1,3 @@
-/*
- * Created on 01-Mar-2016
- */
 package udp;
 
 import java.io.IOException;
@@ -36,12 +33,13 @@ public class UDPServer {
 				pacSize = pacData.length;
 				
 				pac = new DatagramPacket(pacData, pacSize);
-				recvSoc.receive(pac);
+				recvSoc.receive(pac); //receive packet
 				
-				String message = new String( pac.getData());
+				String tmp = new String( pac.getData());
+				String message[] = tmp.split("\\n");  //get rid of new line in string
 
 				totalMessages++;
-				processMessage(message);
+				processMessage(message[0]);
 				
 
 				recvSoc.setSoTimeout(30000);
@@ -67,13 +65,14 @@ public class UDPServer {
 			
 			// TO-DO: Log receipt of the message
 			receivedMessages[totalMessages] = msg.messageNum;
-			System.out.println("Message received: " + msg.toString() );
+			System.out.println("Received: " + msg.toString() );
 
 			// TO-DO: If this is the last expected message, then identify any missing messages
 			if(totalMessages==msg.totalMessages){
 				for(int i=0 ; i < totalMessages ; i++){
 					if(receivedMessages[i]!=i){ //message missing
-						System.out.println("Missing: " + Integer.toString(msg.totalMessages) + ";" + Integer.toString(i));
+						System.out.println("Missing: " + Integer.toString(msg.totalMessages) 
+						+ ";" + Integer.toString(i));
 					}
 				}
 			}
