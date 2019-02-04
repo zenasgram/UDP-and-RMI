@@ -52,7 +52,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 				System.setSecurityManager(new SecurityManager());
 			}
 			try{
-				String serverURL = "rmi://localhost/RMIServer";
+				String serverURL = "rmi://" + "localhost" + "/RMIServer";
 				// TO-DO: Instantiate the server class
 				rmis = new RMIServer();
 				
@@ -72,7 +72,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 		// Start / find the registry (hint use LocateRegistry.createRegistry(...)
 		// If we *know* the registry is running we could skip this (eg run rmiregistry in the start script)
 		try{
-			//RMIServerI stub = (RMIServerI)UnicastRemoteObject.exportObject(server, 0);
+			// RMIServerI stub = (RMIServerI)UnicastRemoteObject.exportObject(server, 0);
 			Registry registry = LocateRegistry.createRegistry(33333);
 
 			// TO-DO:
