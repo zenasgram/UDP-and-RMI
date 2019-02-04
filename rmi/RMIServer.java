@@ -52,10 +52,10 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 				System.setSecurityManager(new SecurityManager());
 			}
 			try{
-				String serverURL = "rmi://" + "localhost" + "/RMIServer";
+				String serverURL = "rmi://" + "146.169.138.67" + "/RMIServer";
 				// TO-DO: Instantiate the server class
 				rmis = new RMIServer();
-				
+
 				// TO-DO: Bind to RMI registry
 				rebindServer(serverURL, rmis);
 			}

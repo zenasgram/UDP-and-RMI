@@ -60,7 +60,7 @@ public class UDPServer {
 			msg = new MessageInfo(data);
 			// TO-DO: On receipt of first message, initialise the receive buffer
 			if(totalMessages == 0){
-				receivedMessages = new int[2000];
+				receivedMessages = new int[msg.totalMessages];
 			}
 			
 			// TO-DO: Log receipt of the message
@@ -68,7 +68,8 @@ public class UDPServer {
 			System.out.println("Received: " + msg.toString() );
 
 			// TO-DO: If this is the last expected message, then identify any missing messages
-			if(totalMessages==msg.totalMessages){
+			int lost = msg.totalMessages - totalMessages; //tracks number of lost messages
+			if(lost == msg.totalMessages){
 				for(int i=0 ; i < totalMessages ; i++){
 					if(receivedMessages[i]!=i){ //message missing
 						System.out.println("Missing: " + Integer.toString(msg.totalMessages) 
