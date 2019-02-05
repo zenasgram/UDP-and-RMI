@@ -1,5 +1,6 @@
 package udp;
 
+import java.awt.Window;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -15,6 +16,7 @@ public class UDPServer {
 	private int totalMessages = 0;
 	private int[] receivedMessages;
 	private boolean close;
+	String TOTAL[];
 
 	int lostMessages = 0;
 
@@ -40,16 +42,36 @@ public class UDPServer {
 				String tmp = new String( pac.getData());
 				String message[] = tmp.split("\\n");  //get rid of new line in string
 
+				TOTAL = message[0].split(";");
+				 
 				totalMessages++;
 				processMessage(message[0]);
 				
-
-				recvSoc.setSoTimeout(30000);
+				recvSoc.setSoTimeout(5000);
 			}
 			
 
 		}catch (IOException e) {
 			System.out.println("IO: " + e.getMessage());
+				for(int i=1 ; i <= Integer.parseInt(TOTAL[0]); i++){
+					if(receivedMessages[i]==0){ //print missing messages
+						System.out.println("Missing: " + TOTAL[0] 
+						+ ";" + Integer.toString(i));
+						lostMessages++; //increment lost counter
+					}
+					else{ //print received messages
+						System.out.println("Received: " + TOTAL[0]  
+						+ ";" + Integer.toString(i));
+					}	
+				}
+				//print statistics:
+				float num = totalMessages;
+				float den = totalMessages+lostMessages;
+				float p =  (num/den)*100;
+				System.out.println("Total messages RECEIVED: " + Integer.toString(totalMessages) );
+				System.out.println("Total messages LOST: " + Integer.toString(lostMessages) );
+				System.out.println("Transmission RELIABILITY: " + Float.toString(p) + "%");
+		
 		}
 
 		
@@ -57,21 +79,28 @@ public class UDPServer {
 
 	public void processMessage(String data) {
 		// TO-DO: Use the data to construct a new MessageInfo object
-		MessageInfo msg = null;
-		try{
-			msg = new MessageInfo(data);
-			// TO-DO: On receipt of first message, initialise the receive buffer
-		
-			if(totalMessages == 1){
-				receivedMessages = new int[msg.totalMessages+1]; //creates buffer size to account for expected messages
+			
+			MessageInfo msg = null;
+			try{
+				msg = new MessageInfo(data);
+				// TO-DO: On receipt of first message, initialise the receive buffer
 			}
-		
+			catch (Exception e) {
+				System.out.println("Error message: " + e.getMessage());
+			}
+			
+				if(totalMessages == 1){
+					receivedMessages = new int[msg.totalMessages+1]; //creates buffer size to account for expected messages
+				}	
 			
 			// TO-DO: Log receipt of the message
 			receivedMessages[msg.messageNum] = totalMessages;
 
 			// TO-DO: If this is the last expected message, then identify any missing messages
-			if( (msg.totalMessages) == msg.messageNum){
+			if( msg.totalMessages == msg.messageNum ){
+
+			
+			System.out.println("Last message recieved!");
 
 				for(int i=1 ; i <= msg.totalMessages; i++){
 
@@ -88,16 +117,14 @@ public class UDPServer {
 				}
 
 				//print statistics:
-				int p =  ((totalMessages-lostMessages)/msg.totalMessages)*100;
+				
+				float num = totalMessages;
+				float den = totalMessages+lostMessages;
+				float p =  (num/den)*100;
 				System.out.println("Total messages RECEIVED: " + Integer.toString(totalMessages) );
 				System.out.println("Total messages LOST: " + Integer.toString(lostMessages) );
-				System.out.println("Transmission RELIABILITY: " + Integer.toString(p) + "%");
+				System.out.println("Transmission RELIABILITY: " + Float.toString(p) + "%");
 			}
-		
-		}
-		catch (Exception e) {
-			System.out.println("Error message: " + e.getMessage());
-		}
 		
 	}
 

@@ -39,12 +39,13 @@ public class RMIClient {
 					// TO-DO: Send the messages to the server
 					while(tries<numMessages){
 					
+						tries++; 
+
 						message = new MessageInfo(numMessages,tries);
 						
 						iRMIServer.receiveMessage(message); //send to server
 						System.out.println("Sent: " + message.toString() );
 						
-						tries++; 
 					}
 				}
 				catch(Exception e){

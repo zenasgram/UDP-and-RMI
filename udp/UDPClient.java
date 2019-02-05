@@ -17,8 +17,6 @@ public class UDPClient {
 		InetAddress	serverAddr = null;
 		int			recvPort;
 		int 		countTo;
-		String 		message;
-
 		// Get the parameters
 		if (args.length < 3) {
 			System.err.println("Arguments required: server name/IP, recv port, message count");

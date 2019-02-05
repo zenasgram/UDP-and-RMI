@@ -12,33 +12,47 @@ import common.*;
 
 public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 
-	private int totalMessages = -1;
+	private int totalMessages = 0;
 	private int[] receivedMessages;
+	int lostMessages = 0;
 
 	public RMIServer() throws RemoteException {
 	}
 
 	public void receiveMessage(MessageInfo msg) throws RemoteException {
 		totalMessages++;
-		// TO-DO: On receipt of first message, initialise the receive buffer
-		if(totalMessages == 0){
-			receivedMessages = new int[2000];
-		}
-		// TO-DO: Log receipt of the message
-		receivedMessages[totalMessages] = msg.messageNum;
-		System.out.println("Received: " + msg.toString() );
 
-		// TO-DO: If this is the last expected message, then identify
-		//        any missing messages
-		if(totalMessages==msg.totalMessages-1){
-			for(int i=0 ; i < totalMessages ; i++){
-				if(receivedMessages[i]!=i){ //message missing
-					System.out.println("Missing: " + Integer.toString(msg.totalMessages) 
-					+ ";" + Integer.toString(i));
-				}
+			if(totalMessages == 1){
+				receivedMessages = new int[msg.totalMessages+1]; //creates buffer size to account for expected messages
 			}
-		}
+		
+			
+			// TO-DO: Log receipt of the message
+			receivedMessages[msg.messageNum] = totalMessages;
 
+			// TO-DO: If this is the last expected message, then identify any missing messages
+			if( (msg.totalMessages) == msg.messageNum){
+
+				for(int i=1 ; i <= msg.totalMessages; i++){
+
+					if(receivedMessages[i]==0){ //print missing messages
+						System.out.println("Missing: " + Integer.toString(msg.totalMessages) 
+						+ ";" + Integer.toString(i));
+						lostMessages++; //increment lost counter
+					}
+					else{ //print received messages
+						System.out.println("Received: " + Integer.toString(msg.totalMessages) 
+						+ ";" + Integer.toString(i));
+					}
+					
+				}
+
+				//print statistics:
+				int p =  ((msg.totalMessages-lostMessages)/msg.totalMessages)*100;
+				System.out.println("Total messages RECEIVED: " + Integer.toString(totalMessages) );
+				System.out.println("Total messages LOST: " + Integer.toString(lostMessages) );
+				System.out.println("Transmission RELIABILITY: " + Integer.toString(p) + "%");
+			}
 	}
 
 
@@ -52,7 +66,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 				System.setSecurityManager(new SecurityManager());
 			}
 			try{
-				String serverURL = "rmi://" + "146.169.138.67" + "/RMIServer";
+				String serverURL = "rmi://" + "146.169.138.91" + "/RMIServer";
 				// TO-DO: Instantiate the server class
 				rmis = new RMIServer();
 
