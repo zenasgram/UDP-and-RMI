@@ -12,9 +12,11 @@ import common.MessageInfo;
 public class UDPServer {
 
 	private DatagramSocket recvSoc;
-	private int totalMessages = -1;
+	private int totalMessages = 0;
 	private int[] receivedMessages;
 	private boolean close;
+
+	int lostMessages = 0;
 
 	private void run() {
 		int				pacSize;
@@ -59,23 +61,33 @@ public class UDPServer {
 		try{
 			msg = new MessageInfo(data);
 			// TO-DO: On receipt of first message, initialise the receive buffer
-			if(totalMessages == 0){
-				receivedMessages = new int[msg.totalMessages];
+			if(totalMessages == 1){
+				receivedMessages = new int[msg.totalMessages+1]; //creates buffer size to account for expected messages
 			}
 			
 			// TO-DO: Log receipt of the message
-			receivedMessages[totalMessages] = msg.messageNum;
-			System.out.println("Received: " + msg.toString() );
+			receivedMessages[msg.messageNum] = totalMessages;
+
+			// System.out.println("Received: " + msg.toString() );
 
 			// TO-DO: If this is the last expected message, then identify any missing messages
-			int lost = msg.totalMessages - totalMessages; //tracks number of lost messages
-			if(lost == msg.totalMessages){
-				for(int i=0 ; i < totalMessages ; i++){
-					if(receivedMessages[i]!=i){ //message missing
+			if( (msg.totalMessages) == msg.messageNum){
+
+				for(int i=1 ; i <= msg.totalMessages ; i++){
+					if(receivedMessages[i]==0){ //print missing messages
 						System.out.println("Missing: " + Integer.toString(msg.totalMessages) 
 						+ ";" + Integer.toString(i));
+						lostMessages++; //increment lost counter
 					}
+					else{ //print received messages
+						System.out.println("Received: " + msg.toString() );
+					}
+					
 				}
+
+				//print statistics:
+				System.out.println("Total messages RECEIVED: " + Integer.toString(totalMessages) );
+				System.out.println("Total messages LOST: " + Integer.toString(lostMessages) );
 			}
 		}
 		catch (Exception e) {

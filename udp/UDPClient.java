@@ -60,13 +60,10 @@ public class UDPClient {
 		MessageInfo message = null;
 
 		// TO-DO: Send the messages to the server
-		while(tries<countTo){
-		
-			message = new MessageInfo (countTo,tries); //instantiate new messageinfo
-
-			send(message.toString(), serverAddr , recvPort); //pass to send function
-
+		while(tries<=countTo){
 			tries++;
+			message = new MessageInfo (countTo,tries); //instantiate new messageinfo
+			send(message.toString(), serverAddr , recvPort); //pass to send function
 		}
 		
 		
