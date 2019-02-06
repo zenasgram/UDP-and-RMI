@@ -71,14 +71,14 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 				System.setSecurityManager(new SecurityManager());
 			}
 			try{
-				System.setProperty("java.rmi.server.hostname", "192.168.1.139");
+				//System.setProperty("java.rmi.server.hostname", "192.168.1.139");
 				
-				String serverURL = "rmi://" + "hostname" + "/RMIServer";
+				String urlServer = "rmi://" + "192.168.1.139" + "/RMIServer";
 				// TO-DO: Instantiate the server class
 				rmis = new RMIServer();
 
 				// TO-DO: Bind to RMI registry
-				rebindServer(serverURL, rmis);
+				rebindServer(urlServer, rmis);
 			}
 			catch(Exception e){
 				System.out.println("Trouble: " + e);
