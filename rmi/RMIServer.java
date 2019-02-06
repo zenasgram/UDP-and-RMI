@@ -71,8 +71,9 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 				System.setSecurityManager(new SecurityManager());
 			}
 			try{
+				System.setProperty("java.rmi.server.hostname", "192.168.1.139");
 				
-				String serverURL = "rmi://" + "192.168.1.139" + "/RMIServer";
+				String serverURL = "rmi://" + "hostname" + "/RMIServer";
 				// TO-DO: Instantiate the server class
 				rmis = new RMIServer();
 
