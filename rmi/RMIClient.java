@@ -27,8 +27,10 @@ public class RMIClient {
 				}
 			// TO-DO: Bind to RMIServer
 				try{
-
-					Registry registry = LocateRegistry.getRegistry(33333);
+					
+					System.setProperty("java.rmi.server.hostname", "192.168.1.139");
+				
+					Registry registry = LocateRegistry.getRegistry(50000);
 					RMIServerI iRMIServer = (RMIServerI) registry.lookup(urlServer);
 			
 				// TO-DO: Attempt to send messages the specified number of times		
