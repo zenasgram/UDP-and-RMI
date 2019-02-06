@@ -17,6 +17,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 	int lostMessages = 0;
 
 	public RMIServer() throws RemoteException {
+		super(Registry.REGISTRY_PORT);
 	}
 
 	public void receiveMessage(MessageInfo msg) throws RemoteException {
@@ -71,7 +72,8 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 				System.setSecurityManager(new SecurityManager());
 			}
 			try{
-				//System.setProperty("java.rmi.server.hostname", "192.168.1.139");
+				System.setProperty("java.rmi.server.hostname", "192.168.1.139");
+				
 				
 				String urlServer = "rmi://" + "192.168.1.139" + "/RMIServer";
 				// TO-DO: Instantiate the server class
@@ -94,7 +96,7 @@ public class RMIServer extends UnicastRemoteObject implements RMIServerI {
 		// If we *know* the registry is running we could skip this (eg run rmiregistry in the start script)
 		try{
 			// RMIServerI stub = (RMIServerI)UnicastRemoteObject.exportObject(server, 0);
-			Registry registry = LocateRegistry.createRegistry(50000);
+			Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
 
 			// TO-DO:
 			// Now rebind the server to the registry (rebind replaces any existing servers bound to the serverURL)
